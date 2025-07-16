@@ -1,8 +1,10 @@
 package id.my.hendisantika.ecommerce3.controller;
 
+import id.my.hendisantika.ecommerce3.entity.User;
 import id.my.hendisantika.ecommerce3.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
@@ -25,5 +27,11 @@ public class AuthController {
     @GetMapping("/login")
     public String showLoginForm() {
         return "login";
+    }
+
+    @GetMapping("/register")
+    public String showRegistrationForm(Model model) {
+        model.addAttribute("user", new User());
+        return "register";
     }
 }
