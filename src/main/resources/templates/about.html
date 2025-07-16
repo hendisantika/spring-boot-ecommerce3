@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>About - MyCart</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark custom-bg">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">Mycart</a>
+        <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+                data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/}">Home <span class="sr-only">(current)</span></a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown"
+                       href="#" id="navbarDropdown" role="button">
+                        Categories
+                    </a>
+                    <div aria-labelledby="navbarDropdown" class="dropdown-menu">
+                        <a class="dropdown-item" th:href="@{/}">All Products</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" th:each="category : ${categories}"
+                           th:href="@{'/category/' + ${category.categoryId}}" th:text="${category.categoryTitle}"></a>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/about}">About</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" data-target="#cart" data-toggle="modal" href="#">
+                        <i class="fa fa-cart-plus" style="font-size: 20px;"></i>
+                        <span class="ml-0 cart-items">(0)</span>
+                    </a>
+                </li>
+
+                <!-- If user is not logged in -->
+                <li class="nav-item active" th:if="${session.isEmpty() || session['current-user'] == null}">
+                    <a class="nav-link" th:href="@{/login}">Login</a>
+                </li>
+                <li class="nav-item active" th:if="${session.isEmpty() || session['current-user'] == null}">
+                    <a class="nav-link" th:href="@{/register}">Register</a>
+                </li>
+
+                <!-- If user is logged in -->
+                <li class="nav-item active" th:if="${session['current-user'] != null}">
+                    <a class="nav-link" th:href="${session['current-user'].userType == 'admin' ? '/admin' : '/normal'}"
+                       th:text="${session['current-user'].userName}"></a>
+                </li>
+                <li class="nav-item active" th:if="${session['current-user'] != null}">
+                    <a class="nav-link" th:href="@{/logout}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header custom-bg text-white">
+                    <h3>About MyCart</h3>
+                </div>
+                <div class="card-body">
+                    <h4>E-Commerce Website Using Java</h4>
+                    <p>This Website is built for following purpose:</p>
+                    <ul>
+                        <li>For buying product online</li>
+                        <li>Maintaining sale history</li>
+                        <li>Adding and managing products</li>
+                        <li>User Friendly</li>
+                        <li>This is a Mini-project developed using Java, Spring Boot, Thymeleaf, and Bootstrap.</li>
+                    </ul>
+
+                    <h4>Admin Features</h4>
+                    <ul>
+                        <li>Add New Products</li>
+                        <li>Add New Category</li>
+                        <li>View Available Products</li>
+                        <li>View Current Users</li>
+                        <li>View Category</li>
+                        <li>Remove Products</li>
+                    </ul>
+
+                    <h4>User Features</h4>
+                    <ul>
+                        <li>Create New Account or Register</li>
+                        <li>Login</li>
+                        <li>View Available Products</li>
+                        <li>Select Product to Buy</li>
+                        <li>Select Product Quantity</li>
+                        <li>Add To cart</li>
+                        <li>Go to Checkout Page</li>
+                    </ul>
+
+                    <h4>Technologies used:</h4>
+                    <ol>
+                        <li>
+                            <strong>Front-End Development:</strong>
+                            <ul>
+                                <li>Html</li>
+                                <li>Css</li>
+                                <li>Javascript</li>
+                                <li>Bootstrap 4</li>
+                                <li>Thymeleaf</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Back-End Development:</strong>
+                            <ul>
+                                <li>Java</li>
+                                <li>Spring Boot</li>
+                                <li>Spring Data JPA</li>
+                                <li>Hibernate</li>
+                                <li>Maven Support</li>
+                            </ul>
+                        </li>
+                        <li>
+                            <strong>Database:</strong>
+                            <ul>
+                                <li>MySQL</li>
+                            </ul>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Cart Modal -->
+<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="cart" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Your Cart</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="cart-body">
+                    <!-- Cart items will be added here dynamically -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                <button class="btn btn-primary checkout-btn" onclick="goToCheckout()" type="button">Checkout</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script th:src="@{/js/script.js}"></script>
+</body>
+</html>
