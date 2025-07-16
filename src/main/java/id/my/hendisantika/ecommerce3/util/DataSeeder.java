@@ -110,4 +110,23 @@ public class DataSeeder {
             log.info("Created dummy category: {}", categoryTitles[i]);
         }
     }
+
+    /**
+     * Seed 10 dummy users
+     */
+    private void seedDummyUsers() {
+        for (int i = 1; i <= 10; i++) {
+            User user = new User();
+            user.setUserName("User" + i);
+            user.setUserEmail("user" + i + "@example.com");
+            user.setUserPassword(passwordEncoder.encode("password" + i));
+            user.setUserPhone("123456789" + i);
+            user.setUserPic("default.jpg");
+            user.setUserAddress("Address " + i + ", City, Country");
+            // Make the first user admin, rest normal
+            user.setUserType(i == 1 ? "admin" : "normal");
+            userRepository.save(user);
+            log.info("Created dummy user: {}", user.getUserName());
+        }
+    }
 }
