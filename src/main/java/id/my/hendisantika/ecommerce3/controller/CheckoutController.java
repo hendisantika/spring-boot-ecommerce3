@@ -7,7 +7,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -36,5 +39,29 @@ public class CheckoutController {
         model.addAttribute("categories", categories);
 
         return "checkout";
+    }
+
+    @PostMapping("/order/place")
+    public String placeOrder(
+            @RequestParam("name") String name,
+            @RequestParam("email") String email,
+            @RequestParam("phone") String phone,
+            @RequestParam("address") String address,
+            HttpSession session,
+            RedirectAttributes redirectAttributes) {
+
+        try {
+            // In a real application, you would save the order to the database here
+
+            // Add success message
+            redirectAttributes.addFlashAttribute("message", "Order placed successfully! Thank you for shopping with us.");
+
+            return "redirect:/";
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            redirectAttributes.addFlashAttribute("message", "Error placing order: " + e.getMessage());
+            return "redirect:/checkout";
+        }
     }
 }
