@@ -1,5 +1,6 @@
 package id.my.hendisantika.ecommerce3.util;
 
+import id.my.hendisantika.ecommerce3.entity.Category;
 import id.my.hendisantika.ecommerce3.entity.User;
 import id.my.hendisantika.ecommerce3.repository.CategoryRepository;
 import id.my.hendisantika.ecommerce3.repository.ProductRepository;
@@ -76,6 +77,37 @@ public class DataSeeder {
                 userRepository.save(user);
                 log.info("Updated password for user: {}", user.getUserName());
             }
+        }
+    }
+
+    /**
+     * Seed 10 dummy categories
+     */
+    private void seedDummyCategories() {
+        String[] categoryTitles = {
+                "Electronics", "Clothing", "Books", "Home & Kitchen", "Sports",
+                "Toys", "Beauty", "Automotive", "Health", "Grocery"
+        };
+
+        String[] categoryDescriptions = {
+                "Electronic devices and accessories",
+                "Clothing and fashion accessories",
+                "Books, e-books, and publications",
+                "Home appliances and kitchen essentials",
+                "Sports equipment and accessories",
+                "Toys and games for all ages",
+                "Beauty and personal care products",
+                "Automotive parts and accessories",
+                "Health and wellness products",
+                "Grocery and gourmet food"
+        };
+
+        for (int i = 0; i < 10; i++) {
+            Category category = new Category();
+            category.setCategoryTitle(categoryTitles[i]);
+            category.setCategoryDescriptioin(categoryDescriptions[i]);
+            categoryRepository.save(category);
+            log.info("Created dummy category: {}", categoryTitles[i]);
         }
     }
 }
