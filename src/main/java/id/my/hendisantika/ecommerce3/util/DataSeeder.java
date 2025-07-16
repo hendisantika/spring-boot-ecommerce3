@@ -1,5 +1,6 @@
 package id.my.hendisantika.ecommerce3.util;
 
+import id.my.hendisantika.ecommerce3.entity.User;
 import id.my.hendisantika.ecommerce3.repository.CategoryRepository;
 import id.my.hendisantika.ecommerce3.repository.ProductRepository;
 import id.my.hendisantika.ecommerce3.repository.UserRepository;
@@ -10,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Random;
 import java.util.regex.Pattern;
 
@@ -56,6 +58,24 @@ public class DataSeeder {
         if (productRepository.count() == 0) {
             log.info("Seeding dummy products...");
             seedDummyProducts();
+        }
+    }
+
+    /**
+     * Update existing user passwords to use BCrypt if they're not already hashed
+     */
+    private void updateExistingUserPasswords() {
+        List<User> users = userRepository.findAll();
+
+        for (User user : users) {
+            // Check if the password is already BCrypt hashed
+            if (!BCRYPT_PATTERN.matcher(user.getUserPassword()).matches()) {
+                // Hash the password and update the user
+                String hashedPassword = passwordEncoder.encode(user.getUserPassword());
+                user.setUserPassword(hashedPassword);
+                userRepository.save(user);
+                log.info("Updated password for user: {}", user.getUserName());
+            }
         }
     }
 }
