@@ -3,6 +3,7 @@ package id.my.hendisantika.ecommerce3.controller;
 import id.my.hendisantika.ecommerce3.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,5 +22,8 @@ public class AuthController {
 
     private final UserService userService;
 
-
+    @GetMapping("/login")
+    public String showLoginForm() {
+        return "login";
+    }
 }
