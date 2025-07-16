@@ -1,6 +1,11 @@
 package id.my.hendisantika.ecommerce3.controller;
 
+import id.my.hendisantika.ecommerce3.entity.User;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * Created by IntelliJ IDEA.
@@ -15,4 +20,14 @@ import org.springframework.stereotype.Controller;
  */
 @Controller
 public class HomeController {
+    @GetMapping("/")
+    public String home(Model model) {
+        // Add authenticated user to model if available
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.getPrincipal() instanceof User user) {
+            model.addAttribute("user", user);
+        }
+
+        return "index";
+    }
 }
