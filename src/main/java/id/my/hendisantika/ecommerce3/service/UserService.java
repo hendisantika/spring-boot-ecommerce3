@@ -1,5 +1,6 @@
 package id.my.hendisantika.ecommerce3.service;
 
+import id.my.hendisantika.ecommerce3.entity.User;
 import id.my.hendisantika.ecommerce3.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -23,4 +24,15 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     * Register a new user with encrypted password
+     *
+     * @param user the user to register
+     * @return the saved user
+     */
+    public User registerUser(User user) {
+        // Encode the password before saving
+        user.setUserPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
+    }
 }
