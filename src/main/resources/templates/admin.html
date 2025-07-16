@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark custom-bg">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">Mycart</a>
+        <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+                data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/}">Home <span class="sr-only">(current)</span></a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown"
+                       href="#" id="navbarDropdown" role="button">
+                        Categories
+                    </a>
+                    <div aria-labelledby="navbarDropdown" class="dropdown-menu">
+                        <a class="dropdown-item" th:href="@{/}">All Products</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" th:each="category : ${categories}"
+                           th:href="@{'/category/' + ${category.categoryId}}" th:text="${category.categoryTitle}"></a>
+                    </div>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" data-target="#cart" data-toggle="modal" href="#">
+                        <i class="fa fa-cart-plus" style="font-size: 20px;"></i>
+                        <span class="ml-0 cart-items">(0)</span>
+                    </a>
+                </li>
+
+                <!-- If user is logged in -->
+                <li class="nav-item active" th:if="${session['current-user'] != null}">
+                    <a class="nav-link" th:href="@{/admin}" th:text="${session['current-user'].userName}"></a>
+                </li>
+                <li class="nav-item active" th:if="${session['current-user'] != null}">
+                    <a class="nav-link" th:href="@{/logout}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Message display -->
+<div class="alert alert-success" th:if="${message}" th:text="${message}"></div>
+
+<div class="container admin">
+    <div class="row mt-3">
+        <!-- First column -->
+        <div class="col-md-4">
+            <!-- User card -->
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="container">
+                        <img alt="user_icon" class="img-fluid rounded-circle" style="max-width: 125px;"
+                             th:src="@{/img/user.png}">
+                    </div>
+                    <h1 th:text="${userCount}"></h1>
+                    <h1 class="text-uppercase text-muted">Users</h1>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second column -->
+        <div class="col-md-4">
+            <!-- Category card -->
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="container">
+                        <img alt="category_icon" class="img-fluid rounded-circle" style="max-width: 125px;"
+                             th:src="@{/img/category.png}">
+                    </div>
+                    <h1 th:text="${categoryCount}"></h1>
+                    <h1 class="text-uppercase text-muted">Categories</h1>
+                </div>
+            </div>
+        </div>
+
+        <!-- Third column -->
+        <div class="col-md-4">
+            <!-- Product card -->
+            <div class="card">
+                <div class="card-body text-center">
+                    <div class="container">
+                        <img alt="product_icon" class="img-fluid rounded-circle" style="max-width: 125px;"
+                             th:src="@{/img/product.png}">
+                    </div>
+                    <h1 th:text="${productCount}"></h1>
+                    <h1 class="text-uppercase text-muted">Products</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Second row -->
+    <div class="row mt-3">
+        <!-- First column -->
+        <div class="col-md-6">
+            <!-- Add category card -->
+            <div class="card" data-target="#add-category-modal" data-toggle="modal">
+                <div class="card-body text-center">
+                    <div class="container">
+                        <img alt="add_category_icon" class="img-fluid rounded-circle" style="max-width: 125px;"
+                             th:src="@{/img/keys.png}">
+                    </div>
+                    <p class="mt-2">Click here to add new category</p>
+                    <h1 class="text-uppercase text-muted">Add Category</h1>
+                </div>
+            </div>
+        </div>
+
+        <!-- Second column -->
+        <div class="col-md-6">
+            <!-- Add product card -->
+            <div class="card" data-target="#add-product-modal" data-toggle="modal">
+                <div class="card-body text-center">
+                    <div class="container">
+                        <img alt="add_product_icon" class="img-fluid rounded-circle" style="max-width: 125px;"
+                             th:src="@{/img/add.png}">
+                    </div>
+                    <p class="mt-2">Click here to add new product</p>
+                    <h1 class="text-uppercase text-muted">Add Product</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Category Modal -->
+<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="add-category-modal" role="dialog"
+     tabindex="-1">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header custom-bg text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Fill category details</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" th:action="@{/category/add}">
+                    <div class="form-group">
+                        <input class="form-control" name="categoryTitle" placeholder="Enter category title" required
+                               type="text">
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" name="categoryDescriptioin"
+                                  placeholder="Enter category description" required></textarea>
+                    </div>
+                    <div class="container text-center">
+                        <button class="btn btn-outline-success" type="submit">Add Category</button>
+                        <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Product Modal -->
+<div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="add-product-modal" role="dialog"
+     tabindex="-1">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header custom-bg text-white">
+                <h5 class="modal-title" id="exampleModalLabel">Fill product details</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form enctype="multipart/form-data" method="post" th:action="@{/product/add}">
+                    <div class="form-group">
+                        <input class="form-control" name="pName" placeholder="Enter product name" required type="text">
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" name="pDesc" placeholder="Enter product description"
+                                  required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" name="pPrice" placeholder="Enter product price" required
+                               type="number">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" name="pDiscount" placeholder="Enter product discount" required
+                               type="number">
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" name="pQuantity" placeholder="Enter product quantity" required
+                               type="number">
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" name="categoryId" required>
+                            <option disabled selected value="">Select Category</option>
+                            <option th:each="category : ${categories}" th:text="${category.categoryTitle}"
+                                    th:value="${category.categoryId}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="productImage">Select Product Image</label>
+                        <input class="form-control" id="productImage" name="productImage" type="file">
+                    </div>
+                    <div class="container text-center">
+                        <button class="btn btn-outline-success" type="submit">Add Product</button>
+                        <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script th:src="@{/js/script.js}"></script>
+</body>
+</html>
