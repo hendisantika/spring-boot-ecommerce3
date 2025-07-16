@@ -35,4 +35,15 @@ public class UserService {
         user.setUserPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
+
+    /**
+     * Find a user by email
+     *
+     * @param email the email to search for
+     * @return the user if found, null otherwise
+     */
+    public User findByEmail(String email) {
+        return userRepository.findByUserEmail(email).orElse(null);
+    }
+
 }
