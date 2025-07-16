@@ -3,10 +3,12 @@ package id.my.hendisantika.ecommerce3.util;
 import id.my.hendisantika.ecommerce3.repository.CategoryRepository;
 import id.my.hendisantika.ecommerce3.repository.ProductRepository;
 import id.my.hendisantika.ecommerce3.repository.UserRepository;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Random;
 import java.util.regex.Pattern;
@@ -35,5 +37,25 @@ public class DataSeeder {
     private final PasswordEncoder passwordEncoder;
     private final Random random = new Random();
 
+    @PostConstruct
+    @Transactional
+    public void seedData() {
+        updateExistingUserPasswords();
 
+        // Check if we need to seed dummy data
+        if (categoryRepository.count() == 0) {
+            log.info("Seeding dummy categories...");
+            seedDummyCategories();
+        }
+
+        if (userRepository.count() < 10) {
+            log.info("Seeding dummy users...");
+            seedDummyUsers();
+        }
+
+        if (productRepository.count() == 0) {
+            log.info("Seeding dummy products...");
+            seedDummyProducts();
+        }
+    }
 }
