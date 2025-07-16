@@ -1,6 +1,7 @@
 package id.my.hendisantika.ecommerce3.util;
 
 import id.my.hendisantika.ecommerce3.entity.Category;
+import id.my.hendisantika.ecommerce3.entity.Product;
 import id.my.hendisantika.ecommerce3.entity.User;
 import id.my.hendisantika.ecommerce3.repository.CategoryRepository;
 import id.my.hendisantika.ecommerce3.repository.ProductRepository;
@@ -127,6 +128,52 @@ public class DataSeeder {
             user.setUserType(i == 1 ? "admin" : "normal");
             userRepository.save(user);
             log.info("Created dummy user: {}", user.getUserName());
+        }
+    }
+
+    /**
+     * Seed 10 dummy products
+     */
+    private void seedDummyProducts() {
+        List<Category> categories = categoryRepository.findAll();
+        if (categories.isEmpty()) {
+            log.error("No categories found. Cannot create products.");
+            return;
+        }
+
+        String[] productNames = {
+                "Smartphone", "T-shirt", "Novel", "Blender", "Basketball",
+                "Board Game", "Shampoo", "Car Charger", "Vitamins", "Cereal"
+        };
+
+        String[] productDescriptions = {
+                "Latest smartphone with advanced features",
+                "Comfortable cotton t-shirt",
+                "Bestselling novel by a renowned author",
+                "High-powered blender for smoothies",
+                "Professional basketball for indoor/outdoor use",
+                "Fun board game for the whole family",
+                "Nourishing shampoo for all hair types",
+                "Fast charging car charger for devices",
+                "Daily vitamins for overall health",
+                "Healthy breakfast cereal"
+        };
+
+        for (int i = 0; i < 10; i++) {
+            Product product = new Product();
+            product.setpName(productNames[i]);
+            product.setpDesc(productDescriptions[i]);
+            product.setpPhoto("default.jpg");
+            product.setpPrice(1000 + random.nextInt(9000)); // Random price between 1000 and 10000
+            product.setpDiscount(random.nextInt(30)); // Random discount between 0 and 29%
+            product.setpQuantity(10 + random.nextInt(90)); // Random quantity between 10 and 99
+
+            // Assign a category - match product to appropriate category or random if not enough
+            int categoryIndex = Math.min(i, categories.size() - 1);
+            product.setCategory(categories.get(categoryIndex));
+
+            productRepository.save(product);
+            log.info("Created dummy product: {}", product.getpName());
         }
     }
 }
