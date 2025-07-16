@@ -46,4 +46,14 @@ public class UserService {
         return userRepository.findByUserEmail(email).orElse(null);
     }
 
+    /**
+     * Check if a user exists with the given email
+     *
+     * @param email the email to check
+     * @return true if a user exists with the email
+     */
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByUserEmail(email);
+    }
+
 }
