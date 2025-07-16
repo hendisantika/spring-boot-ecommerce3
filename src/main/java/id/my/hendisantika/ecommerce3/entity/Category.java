@@ -5,6 +5,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,9 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Category {
 
     @Id
@@ -36,5 +41,12 @@ public class Category {
         this.categoryId = categoryId;
         this.categoryTitle = categoryTitle;
         this.categoryDescriptioin = categoryDescriptioin;
+    }
+
+    public Category(String categoryTitle, String categoryDescriptioin, List<Product> products) {
+        super();
+        this.categoryTitle = categoryTitle;
+        this.categoryDescriptioin = categoryDescriptioin;
+        this.products = products;
     }
 }
