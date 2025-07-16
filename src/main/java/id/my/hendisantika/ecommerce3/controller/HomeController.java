@@ -30,4 +30,15 @@ public class HomeController {
 
         return "index";
     }
+
+    @GetMapping("/about")
+    public String about(Model model) {
+        // Add authenticated user to model if available
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.getPrincipal() instanceof User user) {
+            model.addAttribute("user", user);
+        }
+
+        return "about";
+    }
 }
