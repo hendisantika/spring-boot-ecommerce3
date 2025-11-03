@@ -34,15 +34,15 @@ public class Product {
     @Column(length = 3000)
     private String pDesc;
     private String pPhoto;
-    private int price;
-    private int discount;
-    private int quantity;
+    private int pPrice;
+    private int pDiscount;
+    private int pQuantity;
     @ManyToOne
     private Category category;
 
     //calculate price after discount
     public int getPriceAfterApplyDiscount() {
-        int d = (int) ((this.getDiscount() / 100.0) * this.getPrice());
-        return this.getPrice() - d;
+        int d = (int) ((this.getPDiscount() / 100.0) * this.getPPrice());
+        return this.getPPrice() - d;
     }
 }

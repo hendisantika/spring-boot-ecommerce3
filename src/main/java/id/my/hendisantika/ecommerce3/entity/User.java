@@ -128,4 +128,13 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
+
+    // Custom getter for userName to avoid conflict with UserDetails.getUsername()
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 }

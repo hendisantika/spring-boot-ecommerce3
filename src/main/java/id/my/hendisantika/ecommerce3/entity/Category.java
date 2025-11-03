@@ -5,8 +5,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,6 @@ import java.util.List;
  */
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Category {
 
@@ -34,19 +33,16 @@ public class Category {
     private String categoryTitle;
     private String categoryDescriptioin;
     @OneToMany(mappedBy = "category")
-    private final List<Product> products = new ArrayList<Product>();
+    private List<Product> products = new ArrayList<>();
 
     public Category(int categoryId, String categoryTitle, String categoryDescriptioin) {
-        super();
         this.categoryId = categoryId;
         this.categoryTitle = categoryTitle;
         this.categoryDescriptioin = categoryDescriptioin;
     }
 
-    public Category(String categoryTitle, String categoryDescriptioin, List<Product> products) {
-        super();
+    public Category(String categoryTitle, String categoryDescriptioin) {
         this.categoryTitle = categoryTitle;
         this.categoryDescriptioin = categoryDescriptioin;
-        this.products = products;
     }
 }

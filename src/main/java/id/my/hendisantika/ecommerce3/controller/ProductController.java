@@ -89,7 +89,7 @@ public class ProductController {
                 }
 
                 // Update product with photo path
-                product.setpPhoto(savedProduct.getPid() + ".jpg");
+                product.setPPhoto(savedProduct.getPid() + ".jpg");
                 productRepository.save(product);
             }
 

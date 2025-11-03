@@ -113,19 +113,54 @@ public class DataSeeder {
     }
 
     /**
-     * Seed 10 dummy users
+     * Seed dummy users with Jujutsu Kaisen characters
      */
     private void seedDummyUsers() {
-        for (int i = 1; i <= 10; i++) {
+        String[] userNames = {
+                "Yuji Itadori", "Megumi Fushiguro", "Nobara Kugisaki", "Satoru Gojo", "Maki Zenin",
+                "Toge Inumaki", "Panda", "Yuta Okkotsu", "Kento Nanami", "Sukuna Ryomen"
+        };
+
+        String[] emails = {
+                "yuji@jujutsukaisen.com", "megumi@jujutsukaisen.com", "nobara@jujutsukaisen.com",
+                "gojo@jujutsukaisen.com", "maki@jujutsukaisen.com", "toge@jujutsukaisen.com",
+                "panda@jujutsukaisen.com", "yuta@jujutsukaisen.com", "nanami@jujutsukaisen.com",
+                "sukuna@jujutsukaisen.com"
+        };
+
+        String[] passwords = {
+                "yuji123", "megumi123", "nobara123", "gojo123", "maki123",
+                "toge123", "panda123", "yuta123", "nanami123", "sukuna123"
+        };
+
+        String[] phones = {
+                "0811-1111-0001", "0811-1111-0002", "0811-1111-0003", "0811-1111-0004", "0811-1111-0005",
+                "0811-1111-0006", "0811-1111-0007", "0811-1111-0008", "0811-1111-0009", "0811-1111-0010"
+        };
+
+        String[] addresses = {
+                "Tokyo Metropolitan Curse Technical College, Tokyo, Japan",
+                "Tokyo Metropolitan Curse Technical College, Tokyo, Japan",
+                "Tokyo Metropolitan Curse Technical College, Tokyo, Japan",
+                "Tokyo Jujutsu High School, Tokyo, Japan",
+                "Zenin Family Estate, Tokyo, Japan",
+                "Tokyo Metropolitan Curse Technical College, Tokyo, Japan",
+                "Tokyo Metropolitan Curse Technical College, Tokyo, Japan",
+                "Tokyo Jujutsu High School, Tokyo, Japan",
+                "Jujutsu High School, Tokyo, Japan",
+                "Malevolent Shrine, Shibuya, Tokyo, Japan"
+        };
+
+        for (int i = 0; i < 10; i++) {
             User user = new User();
-            user.setUserName("User" + i);
-            user.setUserEmail("user" + i + "@example.com");
-            user.setUserPassword(passwordEncoder.encode("password" + i));
-            user.setUserPhone("123456789" + i);
+            user.setUserName(userNames[i]);
+            user.setUserEmail(emails[i]);
+            user.setUserPassword(passwordEncoder.encode(passwords[i]));
+            user.setUserPhone(phones[i]);
             user.setUserPic("default.jpg");
-            user.setUserAddress("Address " + i + ", City, Country");
-            // Make the first user admin, rest normal
-            user.setUserType(i == 1 ? "admin" : "normal");
+            user.setUserAddress(addresses[i]);
+            // Make Yuji Itadori (first user) admin, Satoru Gojo also admin, rest normal
+            user.setUserType((i == 0 || i == 3) ? "admin" : "normal");
             userRepository.save(user);
             log.info("Created dummy user: {}", user.getUserName());
         }
@@ -161,19 +196,19 @@ public class DataSeeder {
 
         for (int i = 0; i < 10; i++) {
             Product product = new Product();
-            product.setpName(productNames[i]);
-            product.setpDesc(productDescriptions[i]);
-            product.setpPhoto("default.jpg");
-            product.setpPrice(1000 + random.nextInt(9000)); // Random price between 1000 and 10000
-            product.setpDiscount(random.nextInt(30)); // Random discount between 0 and 29%
-            product.setpQuantity(10 + random.nextInt(90)); // Random quantity between 10 and 99
+            product.setPName(productNames[i]);
+            product.setPDesc(productDescriptions[i]);
+            product.setPPhoto("default.jpg");
+            product.setPPrice(1000 + random.nextInt(9000)); // Random price between 1000 and 10000
+            product.setPDiscount(random.nextInt(30)); // Random discount between 0 and 29%
+            product.setPQuantity(10 + random.nextInt(90)); // Random quantity between 10 and 99
 
             // Assign a category - match product to appropriate category or random if not enough
             int categoryIndex = Math.min(i, categories.size() - 1);
             product.setCategory(categories.get(categoryIndex));
 
             productRepository.save(product);
-            log.info("Created dummy product: {}", product.getpName());
+            log.info("Created dummy product: {}", product.getPName());
         }
     }
 }
