@@ -30,6 +30,28 @@
 - Add To cart
 - Go to Checkout Page
 
+### Demo Login Credentials (Jujutsu Kaisen Characters)
+
+#### Admin Accounts:
+
+| Username     | Email                  | Password | Role  |
+|--------------|------------------------|----------|-------|
+| Yuji Itadori | yuji@jujutsukaisen.com | yuji123  | ADMIN |
+| Satoru Gojo  | gojo@jujutsukaisen.com | gojo123  | ADMIN |
+
+#### Normal User Accounts:
+
+| Username         | Email                    | Password  | Role   |
+|------------------|--------------------------|-----------|--------|
+| Megumi Fushiguro | megumi@jujutsukaisen.com | megumi123 | NORMAL |
+| Nobara Kugisaki  | nobara@jujutsukaisen.com | nobara123 | NORMAL |
+| Maki Zenin       | maki@jujutsukaisen.com   | maki123   | NORMAL |
+| Toge Inumaki     | toge@jujutsukaisen.com   | toge123   | NORMAL |
+| Panda            | panda@jujutsukaisen.com  | panda123  | NORMAL |
+| Yuta Okkotsu     | yuta@jujutsukaisen.com   | yuta123   | NORMAL |
+| Kento Nanami     | nanami@jujutsukaisen.com | nanami123 | NORMAL |
+| Sukuna Ryomen    | sukuna@jujutsukaisen.com | sukuna123 | NORMAL |
+
 ### Technologies used:-
 
 1. Front-End Development:
@@ -49,17 +71,50 @@
 
 3. Database used
 
-- Sql/MySql
+- MySQL 9.5.0
+- Spring Data JPA with Hibernate
 
-Note:- This is a basic Project so we have not think about the security and we have only implemented this project using
-the generic servlet
+### How to Run
+
+1. **Prerequisites:**
+    - Java 21 or higher
+    - Maven 3.9+
+    - Docker and Docker Compose
+
+2. **Start Database:**
+   ```bash
+   docker compose up -d
+   ```
+
+3. **Run Application:**
+   ```bash
+   ./mvnw spring-boot:run
+   ```
+   Or build and package:
+   ```bash
+   mvn -B package --file pom.xml
+   ```
+
+4. **Access Application:**
+    - Main Application: http://localhost:8080
+    - phpMyAdmin: http://localhost:8081
+    - MySQL Database: localhost:3308
+        - Database: `mycart`
+        - Username: `yu71`
+        - Password: `53cret`
+
+### Features
+
+- Spring Security with BCrypt password encryption
+- Docker Compose integration for MySQL database
+- Automatic database seeding with demo data
+- Thymeleaf template engine
+- Spring Boot DevTools for hot reload
+- RESTful architecture
+
+Note:- This project implements modern Spring Security with proper password encryption and authentication/authorization.
 
 #### "Suggestions and project Improvements are Invited!"
-
-<bold>Thanks a lot</bold><br/>
-Project Creator<br/>
-<b>Harshit Shakya</b>
-
 
 <h1>This is Admin Page</h1>
 <img src="images/admin page.png">
