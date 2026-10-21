@@ -35,7 +35,7 @@ public class ProductDao {
             Session session = this.factory.openSession();
             Transaction tx = session.beginTransaction();
 
-            session.save(product);
+            session.persist(product);
             f = true;
 
 

@@ -30,7 +30,8 @@ public class CategoryDao {
     public int saveCategory(Category cat) {
         Session session = this.factory.openSession();
         Transaction tx = session.beginTransaction();
-        int catId = (Integer) session.save(cat);
+        session.persist(cat);
+        int catId = cat.getCategoryId();
         tx.commit();
         session.close();
         return catId;
