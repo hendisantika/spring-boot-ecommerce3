@@ -1,5 +1,9 @@
 # E-Commerce Website Using Java
 
+[![Java CI with Maven](https://github.com/hendisantika/spring-boot-ecommerce3/actions/workflows/maven.yml/badge.svg)](https://github.com/hendisantika/spring-boot-ecommerce3/actions/workflows/maven.yml)
+![Java](https://img.shields.io/badge/Java-25-orange)
+![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.1.1-brightgreen)
+
 ### E-Commerce
 
 <span style="color:blue">**This Website is built for following purpose:-**</span>
@@ -63,10 +67,10 @@
 
 2. Back-End Development
 
-- Java
-- JDBC
-- Servlet
-- Hibernate
+- Java 25
+- Spring Boot 4.1.1
+- Spring Security 7
+- Hibernate 7
 - Maven Support
 
 3. Database used
@@ -77,7 +81,7 @@
 ### How to Run
 
 1. **Prerequisites:**
-    - Java 21 or higher
+    - Java 25 or higher
     - Maven 3.9+
     - Docker and Docker Compose
 
@@ -94,6 +98,8 @@
    ```bash
    mvn -B package --file pom.xml
    ```
+   Tests run against an in-memory H2 database (`src/test/resources/application.properties`), so no MySQL is
+   needed to build. The same build runs on GitHub Actions with Temurin JDK 25.
 
 4. **Access Application:**
     - Main Application: http://localhost:8080
